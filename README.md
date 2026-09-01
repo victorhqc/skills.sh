@@ -1,6 +1,6 @@
 # skills
 
-[![skills.sh](https://skills.sh/b/victorhqc/skills)](https://skills.sh/victorhqc/skills)
+[![skills.sh](https://skills.sh/b/victorhqc/skills.sh)](https://skills.sh/victorhqc/skills.sh)
 
 Agent skills for AI coding agents, following the open
 [Agent Skills](https://agentskills.io) specification. Published on
@@ -19,17 +19,17 @@ Use the [skills CLI](https://skills.sh) to install into your agent
 
 ```bash
 # All skills in this repo
-npx skills add victorhqc/skills
+npx skills add victorhqc/skills.sh
 
 # A single skill
-npx skills add victorhqc/skills --skill minimal-comments
+npx skills add victorhqc/skills.sh --skill minimal-comments
 ```
 
 Install globally (available in every project) with `--global`, or into a
 specific agent with `--agent <name>`:
 
 ```bash
-npx skills add victorhqc/skills --skill minimal-comments --global --agent claude-code
+npx skills add victorhqc/skills.sh --skill minimal-comments --global --agent claude-code
 ```
 
 ## Add a skill to this repo
