@@ -1,5 +1,7 @@
 # skills
 
+[![skills.sh](https://skills.sh/b/victorhqc/skills)](https://skills.sh/victorhqc/skills)
+
 Agent skills for AI coding agents, following the open
 [Agent Skills](https://agentskills.io) specification. Published on
 [skills.sh](https://skills.sh).
