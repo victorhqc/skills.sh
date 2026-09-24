@@ -10,7 +10,9 @@ Agent skills for AI coding agents, following the open
 
 | Skill | Description |
 | ----- | ----------- |
+| [adversarial-review](skills/adversarial-review/) | Reviews a deliverable when the user asks for a thorough review. Ranks defects by severity and gives a READY or NOT READY result. |
 | [minimal-comments](skills/minimal-comments/) | Comments are a last resort — the code is the comment. Enforces a minimal-comment policy in any language, with an exhaustive list of the only valid uses for a comment. |
+| [simplified-technical-english](skills/simplified-technical-english/) | Applies ASD-STE100 Issue 9 rules to technical prose. Preserves facts, uncertainty, and obligations. Flags words that need dictionary verification. |
 
 ## Install
 
