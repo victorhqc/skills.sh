@@ -12,6 +12,7 @@ Agent skills for AI coding agents, following the open
 | ----- | ----------- |
 | [adversarial-review](skills/adversarial-review/) | Reviews a deliverable when the user asks for a thorough review. Ranks defects by severity and gives a READY or NOT READY result. Reports problems only and does not fix them. |
 | [minimal-comments](skills/minimal-comments/) | Comments are a last resort — the code is the comment. Enforces a minimal-comment policy in any language, with an exhaustive list of the only valid uses for a comment. |
+| [pr-description](skills/pr-description/) | Writes or fills in a pull request body: a short Summary first, a Mermaid flow diagram of the change, and a reading order of the files that follows the data flow. Uses the repo's PR template when it has one. Opens or updates the PR with `gh` after you confirm, or gives you a markdown block to paste. |
 | [simplified-technical-english](skills/simplified-technical-english/) | Applies ASD-STE100 Issue 9 rules to technical prose. Preserves facts, uncertainty, and obligations. Flags words that need dictionary verification. |
 
 ## Install
