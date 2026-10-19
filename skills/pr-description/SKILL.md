@@ -1,20 +1,11 @@
 ---
 name: pr-description
 description: |-
-  Write or fill in the body of a pull request: a short Summary as the first paragraph, a Mermaid
-  Flow diagram of the logic change, and a reading order of the files that follows the data flow.
-  Asks first whether the agent fills the PR or you do. Agent: drafts the body to a file outside the
-  working tree and opens or updates the PR with `gh` after you confirm. Manual: shows the body as a
-  markdown block to copy. Either way, GitHub renders the diagram from the Mermaid block. Inspects
-  the branch diff against the default branch, uses the repo's own PR template when it has one, and
-  stays high level: plain English, short sentences, no restating the code.
-
-  Examples:
-  - user: "write a PR description for this branch" -> asks who fills the PR, then drafts it
-  - user: "update the description of PR 1234" -> drafts the body for #1234 and updates it after you confirm
-  - user: "give me a PR description I can paste" -> a markdown block to copy into the PR
-  - user: "fill in the PR template" -> fills the repo's template, Summary first
-  - user: "add a flow diagram to my PR" -> adds the Flow section to the existing body
+  Use this skill to write or update a pull request body: a short Summary first, a Mermaid Flow
+  diagram of the change, and a reading order of the files that follows the data flow. Triggers on
+  "write a PR description", "update PR 1234", "fill in the PR template", or "add a flow diagram to
+  my PR". Uses the repo's PR template when it has one, stays high level, and asks first whether the
+  agent opens or updates the PR with `gh` or the user pastes the body.
 license: MIT
 metadata:
   author: Victor Quiroz
