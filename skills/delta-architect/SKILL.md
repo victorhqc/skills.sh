@@ -1,7 +1,7 @@
 ---
 name: delta-architect
 description: >-
-  Manual-only architecture and coordination workflow for Delta in Zed.
+  Manual-only architecture and coordination workflow for Delta.
   Use only when the user explicitly invokes delta-architect.
   Delegate implementation to Worker and independent review to Reviewer.
   Do not select this skill merely because a task is complex.
@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 ## Intended use
 
-This skill is intended for Delta in Zed.
+This skill is intended for Delta.
 The parent agent acts as Architect and coordinates the task.
 Worker implements the changes, and Reviewer independently reviews the implementation.
 
@@ -111,6 +111,7 @@ Independently inspect the actual implementation and relevant surrounding code.
 Evaluate correctness, security, regressions, and the acceptance criteria.
 Do not rely only on the implementation report.
 Distinguish pre-existing defects from defects introduced by this task.
+Report findings that affect previously accepted or marked-done work to Architect.
 Report actionable findings with severity, file locations, evidence, and concrete consequences.
 Identify verification gaps and residual risks.
 If no actionable defects are found, say so without claiming proof of correctness.
@@ -119,12 +120,42 @@ Report any necessary verification that you cannot perform without writes.
 Do not delegate work.
 Do not create commits, merge branches, push, publish, or deploy.
 
+## Decision gate for accepted work
+
+Apply this gate when new evidence or a review finding changes or invalidates previously accepted or marked-done implementation or architecture.
+Apply it also when the evidence or finding requires replacement of that work.
+Stop the affected correction work before anyone modifies the accepted work.
+Do not silently replace accepted work or expand the correction into another subsystem.
+Do not start the correction before the user decides.
+
+Evaluate the finding and tell the user:
+
+- The finding and the accepted work it affects.
+- The security or correctness consequence.
+- The proposed correction scope.
+
+Ask the user to choose one option:
+
+- Accept the risk and document it.
+- Defer the correction or plan it for a later phase, and record the risk.
+- Authorize an immediate replan and correction.
+
+Delegate the selected scope to Worker only after the user's decision.
+Have Worker record the decision in the canonical spec or plan.
+Keep the affected phase acceptance and completion status accurate.
+Independent reviewers report findings but do not modify files.
+Architect evaluates and presents the decision. Worker implements only the selected scope.
+
+A new defect in current unaccepted work does not by itself trigger this gate.
+Use the normal review loop for corrections that do not change accepted work.
+
 ## Corrections and completion
 
 1. Evaluate each review finding against the requirements and evidence.
-2. Send actionable defects to Worker for correction.
-3. Ask Reviewer to review the corrections and their effects.
-4. Repeat until no actionable defects remain or a blocker requires user direction.
+2. Apply the decision gate for accepted work when it is applicable.
+3. Send actionable defects in the authorized scope to Worker for correction.
+4. Ask Reviewer to review the corrections and their effects.
+5. Repeat for remaining actionable defects in the authorized scope, or stop if a blocker requires user direction.
 
 If the same defect persists after a correction, report the failed correction.
 Do not repeat an unchanged assignment indefinitely.
