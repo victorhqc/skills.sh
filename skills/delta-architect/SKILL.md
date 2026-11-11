@@ -65,10 +65,46 @@ If either profile uses isolated worktrees, stop and request configuration change
 Do not change settings or create separate checkouts to bypass this requirement.
 
 Allow only one implementer to modify the shared checkout at a time.
-Wait for implementation to finish before review starts.
-Wait for review to finish before corrections start.
+
+## Child lifecycle and coordination
+
+Create Worker and Reviewer children with `spawn_subthread`.
+Set `profile` to `worker` or `reviewer` for the assignment.
+Do not supply a `model` override.
+Retain each returned child thread ID for messages and later assignments.
+Spawn acceptance is not assignment completion.
+If the tool returns `start_failed`, report the returned child thread ID and error.
+Do not create an automatic replacement.
+
+Each child starts a fresh conversation with the supplied assignment, not the parent's transcript.
+Include the applicable assignment instructions below directly in each child's assignment.
+An agent-created child's final response automatically goes to its immediate parent.
+No separate done message is necessary.
+Interim updates are not completion.
+A finished turn does not prove assignment success.
+Evaluate the final response and its evidence before accepting the work.
+
+While a child works, continue useful independent work.
+If no independent work remains, end the parent turn.
+Resume when the child's final response arrives.
+Do not sleep, poll, or send agent messages to request status.
+Use `send_agent_message` for blockers, decisions, and substantive coordination.
+Durable message delivery does not mean that the recipient completed the assignment.
+
+After a child's final response, reuse its thread for corrections or further review where appropriate.
+A follow-up through `send_agent_message` starts another turn and retains the child's conversation.
+Do not start dependent work before the relevant child finishes.
+Wait for Worker's final response before Reviewer starts.
+Wait for Reviewer's final response before Worker starts corrections.
+Wait for Worker's correction final response before Reviewer starts re-review.
+
 Shared edits already affect the parent checkout.
 Do not request a merge to transfer shared edits.
+Completion delivery, assignment success, and file transfer are separate.
+Isolated interactive subthreads do not automatically merge changes.
+This workflow still requires shared worktrees.
+Manually created forks and subthreads do not automatically report completion to the parent.
+Do not infer current behavior from legacy attached agents.
 
 ## Plan and delegate
 
@@ -93,10 +129,15 @@ If the plan conflicts with the code or requirements, report the conflict before 
 Make maintainable changes within scope.
 Add or update relevant tests.
 Run the requested tests and checks when possible.
-Report modified files, behavior changes, exact verification results, and blockers.
 Do not delegate work to other agents.
 Do not create commits, merge branches, push, publish, or deploy without explicit authorization.
 Ask before destructive operations.
+
+Use `send_agent_message` to `parent` for blockers, decisions, and substantive coordination, never for status polling.
+In your final response, state whether the assignment is complete or blocked.
+Include modified files, behavior changes, exact verification results, and remaining issues or blockers.
+Your final response automatically goes to your immediate parent.
+Do not send a separate done message.
 
 ## Independent review
 
@@ -112,13 +153,18 @@ Evaluate correctness, security, regressions, and the acceptance criteria.
 Do not rely only on the implementation report.
 Distinguish pre-existing defects from defects introduced by this task.
 Report findings that affect previously accepted or marked-done work to Architect.
-Report actionable findings with severity, file locations, evidence, and concrete consequences.
-Identify verification gaps and residual risks.
-If no actionable defects are found, say so without claiming proof of correctness.
 Do not modify files, apply fixes, run formatters, or run commands that can modify the checkout.
 Report any necessary verification that you cannot perform without writes.
 Do not delegate work.
 Do not create commits, merge branches, push, publish, or deploy.
+
+Use `send_agent_message` to `parent` for blockers, decisions, and substantive coordination, never for status polling.
+In your final response, state whether the assignment is complete or blocked.
+Include actionable findings with severity, file locations, evidence, and concrete consequences.
+Identify verification gaps and remaining risks.
+If no actionable defects are found, say so without claiming proof of correctness.
+Your final response automatically goes to your immediate parent.
+Do not send a separate done message.
 
 ## Decision gate for accepted work
 

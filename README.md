@@ -104,6 +104,12 @@ reviews the implementation. Architect coordinates corrections before completion.
 Implementation, review, and corrections run in sequence because the agents share
 the checkout.
 
+Architect retains each child thread ID and reuses the thread for corrections or
+further review where appropriate. Agent-created children automatically send their
+final response to their immediate parent. Architect evaluates each final response
+before dependent work starts. It does not poll for status.
+Shared edits, completion delivery, and assignment success are separate.
+
 If delegation is unavailable or either profile uses an isolated worktree, the
 workflow stops. Architect does not implement the changes as a fallback.
 
